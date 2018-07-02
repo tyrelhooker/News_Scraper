@@ -3,6 +3,8 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var exphbs = require("express-handlebars");
+
 // Scraping Tools
 // var axios = require("axios");
 var cheerio = require("cheerio");
@@ -10,6 +12,10 @@ var request = require("request");
 var db = require("./models");
 var PORT = 3000;
 var app = express();
+
+//Set Handlebars
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,22 +31,28 @@ mongoose.connect(MONGODB_URI);
 app.get("/scrape", function(req, res) {
   request("http://www.nytimes.com", function(error, response, html) {
     if (error) {
-      console.log("error: " + error);
+      console.log("error: ", error);
+    } else {
+      console.log("statusCode: ", response && response.statusCode);
     }
     const $ = cheerio.load(html);
     // var scrapedNews = {};
-    $("article.story").each(function(i, element) {
+    $("article").each(function(i, element) {
       var result = {};
       result.title = $(this)
-        .children("h2.story-heading")
-        .children("a")
+        .find("h2")
+        .find("a")
         .text();
       result.summary = $(this)
-        .children(".summary")
-        .text();
+        .find(".summary")
+        .text()
+        // .split("\n")
+        .replace(/\n\s*/g, '');
+        // .replacet("  ");
+        // .split(",");
       result.link = $(this)
-        .children("h2.story-heading")
-        .children("a")
+        .find("h2")
+        .find("a")
         .attr("href");
       if (result.title && result.link && result.summary) {
         db.Article.create(result)
