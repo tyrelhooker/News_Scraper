@@ -68,7 +68,7 @@ app.get("/scrape", function(req, res) {
   });
 });
 // Route for getting all Articles from the newScraperdb
-app.get("/articles", function(req, res) {
+app.get("/", function(req, res) {
   db.Article.find({})
     .then(function(dbArticle) {
       var hbsObject = {

@@ -1,15 +1,14 @@
 function getResults() {
-  $.getJSON("/articles", function(data) {
+  $.getJSON("/", function(data) {
     console.log(data);
-    for (var i = 0; i < data.length; i++) {
-      $("#articles").append(
-        `<p>${data[i].title} <br> ${data[i].link} <br> ${data[i].summary} </p>`
-      );
-    }
+    var hbsObject = {
+      art: data
+    };
+    res.render("index", hbsObject);
   });
 }
 
-// getResults();
+getResults();
 
 $("#scrape").on("click", function() {
   $("#articles").empty();
