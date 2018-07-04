@@ -10,14 +10,20 @@
       </div>
       <div class="modal-body">
         <ul class="list-group note-container">
-          <li class="list-group-item">No notes for this article yet.</li>
+          {{#if notes}}
+            {{#each notes}}
+              <li class="list-group-item" id="oldNotes">{{body}}</li>
+            {{/each}}
+          {{else}}
+            <li class="list-group-item">No notes for this article yet.</li>
+          {{/if}}
         </ul>
         <div class="form-group">
-          <textarea placeholder="New Note" class="form-control" id="newNote-text"></textarea>
+          <textarea placeholder="New Note" class="form-control" id="newNoteBody{{_id}}"></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-success save" id="saveNote">Save Note</button>
+        <button class="btn btn-success save" id="saveNote" data-dismiss="modal" data-id="{{_id}}">Save Note</button>
       </div>
     </div>
   </div>

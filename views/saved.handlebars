@@ -6,7 +6,7 @@
           <h5 class="card-title">{{title}}</h5>
           <h6 class="card-subtitle mb-2 text-muted"><a href="{{link}}"/>{{link}}</a></h6>
           <p class="card-text">{{summary}}</p>
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#noteModal{{this._id}}" id="addNote">Add Note</button>
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#noteModal{{this._id}}" id="addNote" data-id="{{_id}}">Add Note</button>
             {{>modal/modal-block}}
           <a href="#" class="btn btn-danger" id="deleteSave">Delete from saved</a>
         </div>

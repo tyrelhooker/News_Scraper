@@ -46,17 +46,14 @@ app.get("/scrape", function(req, res) {
       result.summary = $(this)
         .find(".summary")
         .text()
-        // .split("\n")
         .replace(/\n\s*/g, '');
-        // .replacet("  ");
-        // .split(",");
       result.link = $(this)
         .find("h2")
         .find("a")
         .attr("href");
       // result.saved = false;
       if (result.title && result.link && result.summary) {
-        db.Article.findOneAndUpdate({title: result.title}, result, {upsert: true})
+        db.Article.findOneAndUpdate({title: result.title, saved: false}, result, {upsert: true})
           .then(function(dbArticle) {
             console.log(dbArticle);
           })
@@ -123,9 +120,14 @@ app.get("/articles/:id", function(req, res) {
 
 // Route for saving/updating an Article's note
 app.post("/articles/:id", function(req, res) {
+  console.log("req.body in post", req.body);
+  console.log("res.body in post", res.body);
   db.Note.create(req.body)
     .then(function(dbNote) {
-      return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+      return db.Article.findOneAndUpdate({ _id: req.params.id }, 
+        { note: dbNote._id }, 
+        { new: true }
+      );
     })
     .then(function(dbArticle) {
       res.json(dbArticle);

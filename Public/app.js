@@ -52,14 +52,32 @@ $(document).on("click", "#saveArtBtn", function() {
   })
 });
 
+$(document).on("click", "#saveNote", function() {
+  var thisId = $(this).attr("data-id");
+  console.log(this);
+  console.log({thisId});
+  $.ajax({
+    method: "POST",
+    url: "/articles/" + thisId,
+    data: {
+      body: $("#newNoteBody" + thisId).val()
+    }
+  }).then(function(data) {
+    console.log({data});
+    // $("#newNote-text").val("");
+    // window.location.reload();
+  });
+});
 
-// $(document).on("click", "#note", function(event) {
-//   event.preventDefault();
-//   var thisId = $(this).attr("data-id");
-//   $.ajax({
-//     method: "GET",
-//     url: "/articles/" + thisId
-//   }).then(function(data) {
-//     console.log(data);
-//   })
-// })
+$(document).on("click", "#addNote", function(event) {
+  event.preventDefault();
+  var thisId = $(this).attr("data-id");
+  console.log(this);
+  console.log({thisId});
+  $.ajax({
+    method: "GET",
+    url: "/articles/" + thisId
+  }).then(function(data) {
+    console.log(data);
+  })
+})
