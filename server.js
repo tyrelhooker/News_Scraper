@@ -54,8 +54,9 @@ app.get("/scrape", function(req, res) {
         .find("h2")
         .find("a")
         .attr("href");
+      result.saved = false;
       if (result.title && result.link && result.summary) {
-        db.Article.create(result)
+        db.Article.findOneAndUpdate({title: result.title}, result, {upsert: true})
           .then(function(dbArticle) {
             console.log(dbArticle);
           })
@@ -67,6 +68,7 @@ app.get("/scrape", function(req, res) {
     res.send("Scrape Complete");
   });
 });
+
 // Route for getting all Articles from the newScraperdb
 app.get("/", function(req, res) {
   db.Article.find({})
@@ -74,7 +76,7 @@ app.get("/", function(req, res) {
       var hbsObject = {
         art: dbArticle
       };
-      console.log("hbsObject++++++++: ", hbsObject);
+      // console.log("hbsObject++++++++: ", hbsObject);
       // res.json(dbArticle);
       res.render("index", hbsObject);
     })
@@ -82,6 +84,31 @@ app.get("/", function(req, res) {
       res.json(err);
     });
 });
+
+app.get("/saved", function(req, res,) {
+  db.Article.find({ saved: true })
+    .then(function(data) {
+      console.log(data);
+      var hbsObject = {
+        savedArt: data
+      };
+      res.render("saved", hbsObject);
+    })
+    .catch(function(err) {
+      res.json(err);
+    })
+});
+
+app.post("/save/:id", function(req, res) {
+  db.Article.findOneAndUpdate({ "_id": req.params.id }, { "saved": true})
+  .then(function(err, data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    res.json(err);
+  });
+});
+
 // Route for getting a specific Article by id & populating with a note
 app.get("/articles/:id", function(req, res) {
   db.Article.findOne({ _id: req.params.id })
