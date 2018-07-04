@@ -54,7 +54,7 @@ app.get("/scrape", function(req, res) {
         .find("h2")
         .find("a")
         .attr("href");
-      result.saved = false;
+      // result.saved = false;
       if (result.title && result.link && result.summary) {
         db.Article.findOneAndUpdate({title: result.title}, result, {upsert: true})
           .then(function(dbArticle) {
@@ -69,9 +69,9 @@ app.get("/scrape", function(req, res) {
   });
 });
 
-// Route for getting all Articles from the newScraperdb
+// Route for getting all non-saved Articles from the newScraperdb
 app.get("/", function(req, res) {
-  db.Article.find({})
+  db.Article.find({ saved: false})
     .then(function(dbArticle) {
       var hbsObject = {
         art: dbArticle

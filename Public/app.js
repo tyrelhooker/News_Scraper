@@ -16,9 +16,8 @@ $(document).on("click", "#scrape", function(event) {
     method: "GET",
     url: "/scrape"
   }).then(function(data) {
-    console.log(data);
+    // initPage();
     window.location.reload();
-    
   })
 });
 
@@ -40,6 +39,7 @@ $(document).on("click", "#clear", function(event) {
 
 $(document).on("click", "#saveArtBtn", function() {
   var thisId = $(this).attr("data-id");
+  $(this).parents(".card").remove();
   $.ajax({
       method: "POST",
       url: "save/" + thisId, 
@@ -47,7 +47,8 @@ $(document).on("click", "#saveArtBtn", function() {
         saved: true
       }
   }).then(function(data) {
-      window.location.reload();
+    // initPage();
+    window.location.reload();
   })
 });
 

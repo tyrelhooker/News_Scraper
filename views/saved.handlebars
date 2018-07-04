@@ -1,4 +1,4 @@
-<div class="container-fluid" id="articleContainer">
+<div class="container-fluid" id="savedArticleContainer">
   <div class="row">
     {{#each savedArt}}
       <div class="card col-3" style="width: 18rem;">
@@ -6,8 +6,8 @@
           <h5 class="card-title">{{title}}</h5>
           <h6 class="card-subtitle mb-2 text-muted"><a href="{{link}}"/>{{link}}</a></h6>
           <p class="card-text">{{summary}}</p>
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#noteModal{{_id}}" id="addNote">Add Note</button>
-            {{>modal/modal-block _id}}
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#noteModal{{this._id}}" id="addNote">Add Note</button>
+            {{>modal/modal-block}}
           <a href="#" class="btn btn-danger" id="deleteSave">Delete from saved</a>
         </div>
       </div>
