@@ -84,6 +84,7 @@ app.get("/", function(req, res) {
 
 app.get("/saved", function(req, res,) {
   db.Article.find({ saved: true })
+    .populate("note")
     .then(function(data) {
       console.log(data);
       var hbsObject = {
@@ -96,12 +97,25 @@ app.get("/saved", function(req, res,) {
     })
 });
 
-app.post("/save/:id", function(req, res) {
-  db.Article.findOneAndUpdate({ "_id": req.params.id }, { "saved": true})
+// Route to find article id and change saved value to true
+app.post("/saveArticle/:id", function(req, res) {
+  db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true })
   .then(function(err, data) {
     res.send(data);
   })
   .catch(function(err) {
+    res.json(err);
+  });
+});
+
+// Route to find article by id and change saved value to untrue
+app.post("/unsaveArticle/:id", function(req, res) {
+  db.Article.findOneAndUpdate({ _id: req.params.id, note: { $exists: false }}, { saved: false })
+  .then(function(err, data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.log("Error!!!")
     res.json(err);
   });
 });
@@ -136,6 +150,16 @@ app.post("/articles/:id", function(req, res) {
       res.json(err);
     });
 });
+
+// Clear All Unsaved Articles from DB
+app.post("/clearall", function(req, res) {
+  db.Article.remove({ saved: false }, function(err){
+    console.log(err);
+  });
+  console.log("Cleared all unsaved articles");
+  res.send("Cleared all unsaved articles from db");
+});
+
 
 //Start the server
 app.listen(PORT, function() {

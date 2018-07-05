@@ -23,33 +23,44 @@ $(document).on("click", "#scrape", function(event) {
 
 $(document).on("click", "#clear", function(event) {
   event.preventDefault();
-  $("#articleContainer").empty();
+  $.ajax({
+    method: "POST",
+    url: "/clearall"
+  }).then(function(data) {
+    console.log("Unsaved articles cleared from db");
+    $("#articleContainer").empty();
+    window.location.reload();
+  });
 });
-
-// $(document).on("click", "#saved", function(event) {
-//   event.preventDefault();
-//   $.ajax({
-//     method: "GET",
-//     url: "/saved"
-//   }).then(function(data) {
-//     console.log(data);
-//     window.location.reload();
-//   })
-// })
 
 $(document).on("click", "#saveArtBtn", function() {
   var thisId = $(this).attr("data-id");
   $(this).parents(".card").remove();
   $.ajax({
-      method: "POST",
-      url: "save/" + thisId, 
-      data: {
-        saved: true
-      }
+    method: "POST",
+    url: "saveArticle/" + thisId, 
+    // data: {
+    //   saved: true
+    // }
   }).then(function(data) {
-    // initPage();
+    console.log(data);
     window.location.reload();
   })
+});
+
+$(document).on("click", "#deleteSavedArt", function() {
+  var thisId = $(this).attr("data-id");
+  console.log({thisId});
+  $.ajax({
+    method: "POST",
+    url: "/unsaveArticle/" + thisId, 
+    // data: {
+    //   saved: false
+    // }
+  }).then(function(data) {
+    console.log(data);
+    window.location.reload();
+  });
 });
 
 $(document).on("click", "#saveNote", function() {
@@ -64,7 +75,7 @@ $(document).on("click", "#saveNote", function() {
     }
   }).then(function(data) {
     console.log({data});
-    // $("#newNote-text").val("");
+    $("#newNoteBody" + thisId).val("");
     // window.location.reload();
   });
 });
