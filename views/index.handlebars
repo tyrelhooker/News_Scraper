@@ -1,4 +1,4 @@
-<div class="jumbotron text-center">
+<div class="jumbotron text-center mainBkgrd">
   <div class="overlay">
   </div>
   <div class="background-image">
@@ -9,14 +9,14 @@
   </div>
 </div>
 <div class="container-fluid" id="articleContainer">
-  <div class="row">
+  <div class="row bg-dark">
     {{#each art}}
-      <div class="card col-12 col-sm-6 col-md-4 col-xl-3" id="card{{_id}}" style="width: 18rem;">
+      <div class="card col-12 col-sm-6 col-md-4 col-xl-3 bg-light" id="card{{_id}}" style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title">{{title}}</h5>
           <h6 class="card-subtitle mb-2 text-muted"><a href="{{link}}"/>{{link}}</a></h6>
           <p class="card-text">{{summary}}</p>
-          <a href="#" class="btn btn-primary" id="saveArtBtn" data-id="{{_id}}">Save Article</a>
+          <a href="#" class="btn btn-info" id="saveArtBtn" data-id="{{_id}}">Save Article</a>
         </div>
       </div>
     {{/each}}
