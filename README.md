@@ -3,9 +3,12 @@ By: T.J. Hooker
 
 June 30, 2018
 
-![alt text](https://github.com/tyrelhooker/News_Scraper/blob/master/public/images/screenshot.png "App Image")
+![New_Scraper App Img](https://github.com/tyrelhooker/News_Scraper/blob/master/public/images/screenshot.png "App Image")
 
 This is a web app that scrapes news from the NY Times website and allows the user to view saved comments and leave their own comments on the latest news. 
+
+View App Here: 
+[Heroku](https://arctic-syrup-89101.herokuapp.com/)
 
 ## Technologies include:
 
