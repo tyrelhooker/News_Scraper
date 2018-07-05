@@ -151,8 +151,16 @@ app.post("/articles/:id", function(req, res) {
     });
 });
 
+// Route for deleting notes saved connected to article id
+app.delete("/deleteNote/:id", function(req, res) {
+  db.Note.findOneAndRemove({ _id: req.params.id }, function(err) {
+    console.log(err);
+    res.send(err);
+  });
+});
+
 // Clear All Unsaved Articles from DB
-app.post("/clearall", function(req, res) {
+app.delete("/clearall", function(req, res) {
   db.Article.remove({ saved: false }, function(err){
     console.log(err);
   });

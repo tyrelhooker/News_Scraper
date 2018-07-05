@@ -13,9 +13,8 @@
           {{#if note}}
             {{#each note}}
               <li class="list-group-item" id="oldNotes">{{body}}
-                <button class="btn btn-danger" id="deleteNote">Delete Note</button>
+                <button class="btn btn-danger" data-id="{{_id}}" id="deleteNote">Delete Note</button>
               </li>
-
             {{/each}}
           {{else}}
             <li class="list-group-item">No notes for this article yet.</li>
